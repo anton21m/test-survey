@@ -56,6 +56,7 @@ const model = {
 class Quest {
     questionClassName;
     static numberQuestion = 0;
+    static log = [];
     answerClassName;
     obj;
 
@@ -64,21 +65,38 @@ class Quest {
         this.questionClassName = model.defaults.question.className;
         this.answerClassName = model.defaults.answer.className;
     }
-    renderQuestion(obj) {
+    setTitle(obj) {
+        const $title = document.querySelector(".question .title");
+        $title.innerText = obj.title;
+    }
+    renderAnswers(obj) {
+        const $answers = document.querySelector(".answers");
 
+        obj.answers.forEach(el => {
+            const $span = document.createElement('span');
+            $span.innerText = el.title;
+            const $div = document.createElement('div');
+            $div.classList.add("option");
+            $div.appendChild($span);
+            $answers.appendChild($div);
+        });
+    }
+    renderQuest(obj) {
+        this.setTitle(obj);
+        this.renderAnswers(obj);
     }
 }
 
-quest;
+const quest = null;
 
-function init() {
+function init(quest) {
     //подготовка экрана
-    screen = new Quest();
-
-
+    quest = new Quest();
+    quest.numberQuestion = 0;
+    quest.renderQuest(model.questions[0]);
 }
 
-init();
+init(quest);
 
 
 
