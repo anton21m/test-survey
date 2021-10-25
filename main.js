@@ -128,8 +128,6 @@ class Quest {
         this.renderAnswers(obj);
     }
     show(type) {
-
-
         if (type === 'fail') {
             this.setState("fail")
             this.logs.addLog(model.questions[this.numberQuestion], type);
@@ -138,6 +136,7 @@ class Quest {
             }, 1000);
         }
         if (type === 'finish') {
+            this.logs.addLog(null, type);
             this.setState("success")
         }
     }
@@ -145,7 +144,6 @@ class Quest {
         this.logs.addLog(model.questions[this.numberQuestion], "true");
         this.numberQuestion++;
         if (model.questions[this.numberQuestion]) {
-            console.log("next")
             this.renderQuest(model.questions[this.numberQuestion])
         } else {
             this.show("finish")
