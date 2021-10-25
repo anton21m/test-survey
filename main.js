@@ -12,11 +12,11 @@ const model = {
         }
     },
     questions: [{
-            title: 'выберите лишнее',
+            title: 'Lorem1',
             answers: [
-                { title: 'mac os' },
-                { title: 'windows' },
-                { title: 'linux' },
+                { title: 'Ans1' },
+                { title: 'Ans2' },
+                { title: 'As3' },
             ]
         },
         {
@@ -54,49 +54,94 @@ const model = {
 };
 
 class Quest {
-    questionClassName;
-    static numberQuestion = 0;
+    numberQuestion = 0;
     static log = [];
     answerClassName;
-    obj;
 
     constructor() {
         //Load default
-        this.questionClassName = model.defaults.question.className;
-        this.answerClassName = model.defaults.answer.className;
+        const $screenFinishTitle = document.querySelector(".screen .success .title")
+        $screenFinishTitle.innerText = model.screens.finish.title
+
+        const $screenFailTitle = document.querySelector(".screen .fail .title")
+        $screenFailTitle.innerText = model.screens.fail.title
+
     }
+    setState(name = "surveys") {
+        const $screen = document.querySelector(".screen")
+        $screen.classList.remove("fail", "start", "success", "surveys")
+        $screen.classList.add(name)
+    }
+    init() {
+        this.setState("surveys")
+        quest.numberQuestion = 0;
+        quest.renderQuest(model.questions[0]);
+    }
+    getAnswerDom(el) {
+        const $span = document.createElement('span');
+        $span.innerText = el.title;
+        const $div = document.createElement('div');
+        $div.classList.add("option");
+        $div.appendChild($span);
+
+        if (el.onClick)
+            $div.addEventListener('click', () => el.onClick(this)); //closure
+        else
+            $div.addEventListener('click', () => model.defaults.answer.onClick(this)); //closure
+
+        return $div
+    }
+
     setTitle(obj) {
         const $title = document.querySelector(".question .title");
         $title.innerText = obj.title;
     }
+
     renderAnswers(obj) {
         const $answers = document.querySelector(".answers");
+        $answers.innerHTML = '';
 
         obj.answers.forEach(el => {
-            const $span = document.createElement('span');
-            $span.innerText = el.title;
-            const $div = document.createElement('div');
-            $div.classList.add("option");
-            $div.appendChild($span);
-            $answers.appendChild($div);
+            const $answer = this.getAnswerDom(el)
+            $answers.appendChild($answer);
         });
     }
     renderQuest(obj) {
+        const $question = document.querySelector(".screen .surveys .question")
+        $question.classList = (!obj.className ? model.defaults.question.className : obj.className)
+
         this.setTitle(obj);
         this.renderAnswers(obj);
     }
+    show(type) {
+        if (type === 'fail') {
+            this.setState("fail")
+            setTimeout(() => {
+                this.setState("surveys");
+            }, 1000);
+        }
+        if (type === 'finish') {
+            this.setState("success")
+        }
+    }
+    next() {
+        this.numberQuestion++;
+        if (model.questions[this.numberQuestion]) {
+            console.log("next")
+            this.renderQuest(model.questions[this.numberQuestion])
+        } else {
+            this.show("finish")
+        }
+    }
+
 }
 
-const quest = null;
+const quest = new Quest();
 
-function init(quest) {
-    //подготовка экрана
-    quest = new Quest();
-    quest.numberQuestion = 0;
-    quest.renderQuest(model.questions[0]);
-}
-
-init(quest);
+$buttonsStart = document.querySelectorAll(".screen .begin")
+$buttonsStart.forEach($button => {
+    $button.addEventListener("click", () => quest.init())
+});
 
 
 

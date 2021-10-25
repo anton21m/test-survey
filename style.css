@@ -59,3 +59,45 @@ body {
     -moz-animation: AnimationName 30s ease infinite;
     animation: AnimationName 30s ease infinite;
 }
+
+.screen>* {
+    display: none;
+}
+
+.screen.surveys .surveys,
+.screen.start .start,
+.screen.success .success,
+.screen.fail .fail {
+    display: block;
+}
+
+.screen .start,
+.screen .success button {
+    font-size: 40px;
+}
+
+.trollface * {
+    color: green
+}
+
+button.begin {
+    margin-top: 50vw;
+    font-size: 30px;
+    padding: 5px;
+}
+
+.success .title {
+    font-size: 30px;
+    color: green
+}
+
+.fail .title {
+    font-size: 30px;
+    color: rgb(255, 0, 0)
+}
+
+@media (max-width: 360px) {
+    .screen .answers {
+        padding: 50px 0;
+    }
+}
