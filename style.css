@@ -76,10 +76,6 @@ body {
     font-size: 40px;
 }
 
-.trollface * {
-    color: green
-}
-
 button.begin {
     margin-top: 50vw;
     font-size: 30px;
@@ -94,6 +90,15 @@ button.begin {
 .fail .title {
     font-size: 30px;
     color: rgb(255, 0, 0)
+}
+
+.trollface {
+    background-image: url("https://upload.wikimedia.org/wikipedia/ru/thumb/7/78/Trollface.svg/1200px-Trollface.svg.png"), repeating-linear-gradient(red, yellow 10%, green 20%);
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    color: #61b4b4;
+    height: 80px;
 }
 
 @media (max-width: 360px) {

@@ -53,29 +53,43 @@ const model = {
     }
 };
 
+class Log {
+    logs = [];
+    addLog(obj, event) {
+        this.logs.push([obj, event])
+    }
+    showLogs() {
+        console.log(this.logs)
+    }
+}
+
 class Quest {
     numberQuestion = 0;
-    static log = [];
+    static logs;
     answerClassName;
-
+    $screen = document.querySelector(".screen")
     constructor() {
         //Load default
-        const $screenFinishTitle = document.querySelector(".screen .success .title")
-        $screenFinishTitle.innerText = model.screens.finish.title
+        const $screenSuccessTitle = document.querySelector(".screen .success .title")
+        $screenSuccessTitle.innerText = model.screens.finish.title
 
         const $screenFailTitle = document.querySelector(".screen .fail .title")
         $screenFailTitle.innerText = model.screens.fail.title
 
+        this.logs = new Log();
+
     }
     setState(name = "surveys") {
-        const $screen = document.querySelector(".screen")
-        $screen.classList.remove("fail", "start", "success", "surveys")
-        $screen.classList.add(name)
+        this.$screen.classList.remove("fail", "start", "success", "surveys")
+        this.$screen.classList.add(name)
     }
     init() {
         this.setState("surveys")
         quest.numberQuestion = 0;
         quest.renderQuest(model.questions[0]);
+
+        this.logs.addLog(null, "new survey");
+        this.logs.showLogs()
     }
     getAnswerDom(el) {
         const $span = document.createElement('span');
@@ -114,8 +128,11 @@ class Quest {
         this.renderAnswers(obj);
     }
     show(type) {
+
+
         if (type === 'fail') {
             this.setState("fail")
+            this.logs.addLog(model.questions[this.numberQuestion], type);
             setTimeout(() => {
                 this.setState("surveys");
             }, 1000);
@@ -125,6 +142,7 @@ class Quest {
         }
     }
     next() {
+        this.logs.addLog(model.questions[this.numberQuestion], "true");
         this.numberQuestion++;
         if (model.questions[this.numberQuestion]) {
             console.log("next")
