@@ -12,11 +12,11 @@ const model = {
         }
     },
     questions: [{
-            title: 'Lorem1',
+            title: 'выберите лишнее',
             answers: [
-                { title: 'Ans1' },
-                { title: 'Ans2' },
-                { title: 'As3' },
+                { title: 'mac os' },
+                { title: 'windows' },
+                { title: 'linux' },
             ]
         },
         {
